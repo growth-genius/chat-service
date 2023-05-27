@@ -1,0 +1,29 @@
+server:
+  port: 0
+spring:
+  application:
+    name: chat-service
+  profiles:
+    activate:
+      on-profile: dev
+  data:
+    redis:
+      host: redis
+      port: 6739
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true # eureka
+    fetch-registry: true
+    service-url:
+      defaultZone: http://tgather:8761/eureka
+kafka:
+  bootstrap-servers-config: 172.18.0.101:9092
+  group-id-config: chat-service

@@ -1,0 +1,22 @@
+server:
+  port: 0
+spring:
+  application:
+    name: chat-service
+  profiles:
+    active: default
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6739
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true # eureka
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+kafka:
+  bootstrap-servers-config: 172.0.0.1:9092
+  group-id-config: chat-service
