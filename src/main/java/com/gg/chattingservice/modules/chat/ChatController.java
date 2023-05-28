@@ -1,7 +1,7 @@
 package com.gg.chattingservice.modules.chat;
 
 
-import com.gg.chattingservice.modules.chat.dto.ChatMessage;
+import com.gg.chattingservice.modules.chat.dto.ChatMessageDto;
 import com.gg.chattingservice.modules.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,7 +14,7 @@ public class ChatController {
 
 
     @MessageMapping("/chat/message")
-    public void message(ChatMessage message) {
+    public void message(ChatMessageDto message) {
         chatService.sendMessage(message);
     }
 

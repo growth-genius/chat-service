@@ -14,11 +14,13 @@ import lombok.Getter;
 public class ChatAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="chat_room_id")
+    @JoinColumn(name ="room_id")
     private ChatRoom chatRoom;
+
+    private String accountId;
 
 }

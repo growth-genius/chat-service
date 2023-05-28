@@ -4,12 +4,10 @@ import static com.gg.commonservice.utils.ApiUtil.success;
 
 import com.gg.chattingservice.modules.chat.dto.ChatRoomDto;
 import com.gg.chattingservice.modules.chat.dto.ChatRoomInfo;
-import com.gg.chattingservice.modules.chat.entity.ChatRoom;
 import com.gg.chattingservice.modules.chat.service.ChatService;
 import com.gg.commonservice.annotation.RestBaseAnnotation;
 import com.gg.commonservice.security.JwtAuthentication;
 import com.gg.commonservice.utils.ApiUtil.ApiResult;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +23,7 @@ public class ChatRoomController {
     private final ChatService chatService;
     @GetMapping("/room")
     public ApiResult<ChatRoomInfo> rooms(@AuthenticationPrincipal JwtAuthentication authentication) {
-        return success(chatService.getRooms(authentication.accountId()));
+        return success(ChatRoomInfo.builder().accountId(authentication.accountId()).chatRoomList(chatService.getRooms(authentication.accountId())).build());
     }
 
     @PostMapping("/room/{roomName}")
@@ -37,4 +35,5 @@ public class ChatRoomController {
     public ApiResult<ChatRoomDto> roomInfo(@PathVariable String roomId) {
         return success(chatService.getRoom(roomId));
     }
+
 }

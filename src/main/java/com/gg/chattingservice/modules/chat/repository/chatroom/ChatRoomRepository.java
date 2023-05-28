@@ -4,6 +4,6 @@ import com.gg.chattingservice.modules.chat.entity.ChatRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long>, ChatRoomRepositoryQuerydsl {
+public interface ChatRoomRepository extends JpaRepository<ChatRoom, String>, ChatRoomRepositoryQuerydsl {
 
 }

@@ -15,7 +15,6 @@ public class ChatRoomDto {
     private String roomId;
     private String roomName;
 
-    private long userCount;
 
     public static ChatRoomDto from(ChatRoom chatRoom) {
         ChatRoomDto chatRoomDto = new ChatRoomDto();
@@ -24,5 +23,11 @@ public class ChatRoomDto {
     }
 
     private ChatRoomDto() {}
+
+    public static ChatRoomDto from(ChatRoomSearchDto chatRoomSearchDto) {
+        ChatRoomDto chatRoomDto = new ChatRoomDto();
+        copyProperties(chatRoomSearchDto, chatRoomDto);
+        return chatRoomDto;
+    }
 
 }
