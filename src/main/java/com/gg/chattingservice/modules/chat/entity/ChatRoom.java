@@ -1,9 +1,10 @@
 package com.gg.chattingservice.modules.chat.entity;
 
+import com.gg.chattingservice.modules.chat.enums.RoomStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
@@ -19,14 +20,16 @@ import lombok.NoArgsConstructor;
 public class ChatRoom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String roomId;
     private String roomName;
+    @Enumerated(EnumType.STRING)
+    private RoomStatus roomStatus;
 
     @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
     private List<ChatAccount> accountIds = new ArrayList<>();
+
+    @OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
+    private List<ChatMessage> messages = new ArrayList<>();
 
     public static ChatRoom create(String name) {
         ChatRoom chatRoom = new ChatRoom();
