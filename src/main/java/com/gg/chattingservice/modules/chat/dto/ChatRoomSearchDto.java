@@ -10,9 +10,9 @@ public class ChatRoomSearchDto {
     private String roomId;
     private String roomName;
     private String accountId;
-    private long accountCount;
+    private int accountCount;
 
-    public ChatRoomSearchDto(ChatRoom chatRoom, ChatAccount chatAccount, long accountCount) {
+    public ChatRoomSearchDto(ChatRoom chatRoom, ChatAccount chatAccount, int accountCount) {
         this.roomId = chatRoom.getRoomId();
         this.roomName = chatRoom.getRoomName();
         this.accountId = chatAccount.getAccountId();
