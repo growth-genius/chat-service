@@ -9,7 +9,7 @@ spring:
   data:
     redis:
       host: redis
-      port: 6739
+      port: 6379
   h2:
     console:
       enabled: true
