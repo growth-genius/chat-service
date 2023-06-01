@@ -16,7 +16,7 @@ public class ChatRoomDto {
     private String roomName;
 
 
-    protected ChatRoomDto (ChatRoom chatRoom) {
+    public ChatRoomDto (ChatRoom chatRoom) {
         copyProperties(chatRoom, this);
     }
     public static ChatRoomDto from(ChatRoom chatRoom) {
