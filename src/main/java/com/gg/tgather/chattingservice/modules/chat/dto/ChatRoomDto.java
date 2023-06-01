@@ -16,10 +16,11 @@ public class ChatRoomDto {
     private String roomName;
 
 
+    protected ChatRoomDto (ChatRoom chatRoom) {
+        copyProperties(chatRoom, this);
+    }
     public static ChatRoomDto from(ChatRoom chatRoom) {
-        ChatRoomDto chatRoomDto = new ChatRoomDto();
-        copyProperties(chatRoom, chatRoomDto);
-        return chatRoomDto;
+        return new ChatRoomDto(chatRoom);
     }
 
     private ChatRoomDto() {}
