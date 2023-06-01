@@ -34,19 +34,19 @@ public class RedisSubscriber implements MessageListener {
             // Websocket 구독자에게 채팅 메시지 Send
             String roomId = roomMessage.getRoomId();
             messagingTemplate.convertAndSend("/sub/chat/room/" + roomId, roomMessage);
-            // 데이터베이스에 적재할 배치 크기가 쌓일 때마다 데이터베이스에 적재
+            /*// 데이터베이스에 적재할 배치 크기가 쌓일 때마다 데이터베이스에 적재
             Long listSize = redisTemplate.opsForList().size(roomId);
             // 데이터베이스에 적재할 배치 크기
             int batchSize = 1000;
             if (listSize != null && (listSize % batchSize == 0)) {
                 saveToDatabase(roomId);
-            }
+            }*/
         } catch (Exception e) {
             log.error(e.getMessage());
         }
     }
 
-    private void saveToDatabase(String channel) {
+/*    private void saveToDatabase(String channel) {
         // 데이터베이스에 적재하는 로직 수행
         log.info("Saving data from channel {} to the database", channel);
         // 채널에서 값을 가져와서 처리
@@ -57,7 +57,7 @@ public class RedisSubscriber implements MessageListener {
             // 적재한 데이터를 Redis 에서 삭제
             redisTemplate.delete(channel);
         }
-    }
+    }*/
 
 
 }

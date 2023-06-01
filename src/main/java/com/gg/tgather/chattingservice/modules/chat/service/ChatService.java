@@ -28,7 +28,7 @@ public class ChatService {
     }
 
     public ChatRoomDto getRoom(String roomId) {
-        return chatRoomRepository.findRoomById(roomId).orElseThrow(()-> new RuntimeException("일치하는 방이 없습니다."));
+        return redisService.getChatRoom(roomId);
     }
 
 }

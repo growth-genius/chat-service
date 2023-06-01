@@ -20,3 +20,6 @@ eureka:
 kafka:
   bootstrap-servers-config: 172.0.0.1:9092
   group-id-config: chat-service
+
+chat:
+  room-name: tgather-chatting
