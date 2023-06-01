@@ -9,6 +9,7 @@ import com.gg.tgather.chattingservice.modules.chat.dto.ChatRoomSearchDto;
 import com.gg.tgather.chattingservice.modules.chat.entity.ChatRoom;
 import com.gg.tgather.commonservice.jpa.Querydsl5Support;
 import java.util.List;
+import java.util.Optional;
 
 public class ChatRoomRepositoryImpl extends Querydsl5Support implements ChatRoomRepositoryQuerydsl {
 
@@ -23,7 +24,7 @@ public class ChatRoomRepositoryImpl extends Querydsl5Support implements ChatRoom
     }
 
     @Override
-    public ChatRoomDto findRoomById(String roomId) {
-        return null;
+    public Optional<ChatRoomDto> findRoomById(String roomId) {
+        return Optional.ofNullable(select(constructor(ChatRoomDto.class, chatRoom)).from(chatRoom).where(chatRoom.roomId.eq(roomId)).fetchOne());
     }
 }
