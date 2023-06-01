@@ -10,11 +10,8 @@ import lombok.Setter;
 @Setter
 public class ChatRoomDto {
 
-    private Long id;
-
     private String roomId;
     private String roomName;
-
 
     public ChatRoomDto (ChatRoom chatRoom) {
         copyProperties(chatRoom, this);

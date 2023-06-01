@@ -5,6 +5,7 @@ import com.gg.tgather.chattingservice.modules.chat.dto.ChatRoomDto;
 import com.gg.tgather.chattingservice.modules.chat.repository.chatroom.ChatRoomRepository;
 import com.gg.tgather.chattingservice.modules.redis.RedisService;
 import com.gg.tgather.commonservice.annotation.BaseServiceAnnotation;
+import com.gg.tgather.commonservice.security.JwtAuthentication;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -22,8 +23,8 @@ public class ChatService {
         return chatRoomRepository.findAllRoomByAccountId(accountId).stream().map(ChatRoomDto::from).distinct().toList();
     }
 
-    public ChatRoomDto createRoom(String roomName) {
-        return redisService.createChatRoom(roomName);
+    public ChatRoomDto createRoom(String roomName, JwtAuthentication authentication) {
+        return redisService.createChatRoom(roomName, authentication);
     }
 
     public ChatRoomDto getRoom(String roomId) {

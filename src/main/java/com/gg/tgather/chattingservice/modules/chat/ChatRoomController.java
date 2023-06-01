@@ -27,8 +27,8 @@ public class ChatRoomController {
     }
 
     @PostMapping("/room/{roomName}")
-    public ApiResult<ChatRoomDto> createRoom(@PathVariable String roomName) {
-        return success(chatService.createRoom(roomName));
+    public ApiResult<ChatRoomDto> createRoom(@PathVariable String roomName, @AuthenticationPrincipal JwtAuthentication authentication) {
+        return success(chatService.createRoom(roomName, authentication));
     }
 
     @GetMapping("/room/{roomId}")
