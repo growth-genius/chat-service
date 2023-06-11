@@ -29,7 +29,7 @@ public class ChatRoomController {
      * @param authentication 사용자 정보
      * @return ChatRoomInfo 채팅 방 정보
      */
-    @GetMapping("/room")
+    @GetMapping("/rooms")
     public ApiResult<ChatRoomInfo> rooms(@AuthenticationPrincipal JwtAuthentication authentication) {
         return success(ChatRoomInfo.builder().accountId(authentication.accountId()).chatRoomList(chatService.getRooms(authentication.accountId())).build());
     }
@@ -40,7 +40,7 @@ public class ChatRoomController {
      * @param authentication 로그인 사용자 정보
      * @return ChatRoomDto 만들어진 채팅 방
      */
-    @PostMapping("/room/{roomName}")
+    @PostMapping("/rooms/room-name/{roomName}")
     public ApiResult<ChatRoomDto> createRoom(@PathVariable String roomName, @AuthenticationPrincipal JwtAuthentication authentication) {
         return success(chatService.createRoom(roomName, authentication));
     }
@@ -51,7 +51,7 @@ public class ChatRoomController {
      * @param authentication 로그인 사용자
      * @return ChatRoomDto 들어간 채팅방 정보
      */
-    @PostMapping("/room/{roomId}")
+    @PostMapping("/rooms/room-id/{roomId}")
     public ApiResult<ChatRoomDto> joinRoom(@PathVariable String roomId, @AuthenticationPrincipal JwtAuthentication authentication) {
         return success(chatService.joinRoom(roomId, authentication));
     }
@@ -61,7 +61,7 @@ public class ChatRoomController {
      * @param roomId 채팅방 식별자
      * @return ChatRoomDto 들아간 채팅방 정보
      */
-    @GetMapping("/room/{roomId}")
+    @GetMapping("/rooms/{roomId}")
     public ApiResult<ChatRoomDto> roomInfo(@PathVariable String roomId) {
         return success(chatService.getRoom(roomId));
     }

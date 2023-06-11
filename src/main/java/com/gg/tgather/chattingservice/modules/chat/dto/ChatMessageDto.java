@@ -28,7 +28,7 @@ public class ChatMessageDto {
     /** 시간 */
     private LocalDateTime time;
 
-    public ChatMessageDto(String roomId, String accountId, String nickname) {
+    private ChatMessageDto(String roomId, String accountId, String nickname) {
         this.roomId = roomId;
         this.accountId = accountId;
         this.nickname = nickname;
