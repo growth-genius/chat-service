@@ -17,9 +17,6 @@ public class ChatMessage {
 
     @Id
     private String messageId;
-    /** 메시지 유형 */
-    @Enumerated(EnumType.STRING)
-    private MessageType messageType;
     /** 방번호 */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
