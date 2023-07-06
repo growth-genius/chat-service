@@ -17,15 +17,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        List<String> hosts = customProperties.getHosts();
-        String[] array = hosts.toArray(new String[0]);
-        registry.addMapping("/**")
-            .allowedOrigins(array)
-            .allowCredentials(false)
-            .maxAge(3600)
-            .allowedHeaders("Accept", "Content-Type", "Origin",
-                "Authorization", "X-Auth-Token")
-            .exposedHeaders("X-Auth-Token", "Authorization")
-            .allowedMethods("POST", "GET", "DELETE", "PUT", "OPTIONS");
+//        List<String> hosts = customProperties.getHosts();
+//        String[] array = hosts.toArray(new String[0]);
+//        registry.addMapping("/**")
+//            .allowedOrigins(array)
+//            .allowCredentials(false)
+//            .maxAge(3600)
+//            .allowedHeaders("Accept", "Content-Type", "Origin",
+//                "Authorization", "X-Auth-Token")
+//            .exposedHeaders("X-Auth-Token", "Authorization")
+//            .allowedMethods("POST", "GET", "DELETE", "PUT", "OPTIONS");
     }
 }
