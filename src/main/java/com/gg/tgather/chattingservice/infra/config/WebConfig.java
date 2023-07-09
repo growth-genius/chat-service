@@ -1,16 +1,27 @@
 package com.gg.tgather.chattingservice.infra.config;
 
+import com.gg.tgather.chattingservice.infra.inetrceptor.RequestLogInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Collections;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
+
+    private final RequestLogInterceptor requestLogInterceptor;
+
+    @Override
+    public void addInterceptors ( InterceptorRegistry registry ) {
+        registry.addInterceptor( requestLogInterceptor );
+    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {   // 기본 컨버터를 유지관리
