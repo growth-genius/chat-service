@@ -21,5 +21,7 @@ kafka:
   bootstrap-servers-config: 172.0.0.1:9092
   group-id-config: chat-service
 
-chat:
-  room-name: tgather-chatting
+custom:
+  hosts:
+    - http://localhost:3000
+    - http://127.0.0.1:3000

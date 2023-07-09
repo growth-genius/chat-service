@@ -5,7 +5,6 @@ import com.gg.tgather.chattingservice.modules.chat.dto.ChatMessageDto;
 import com.gg.tgather.chattingservice.modules.chat.dto.ChatRoomDto;
 import com.gg.tgather.chattingservice.modules.chat.entity.ChatAccount;
 import com.gg.tgather.chattingservice.modules.chat.entity.ChatRoom;
-import com.gg.tgather.chattingservice.modules.chat.enums.MessageType;
 import com.gg.tgather.chattingservice.modules.chat.repository.chataccount.ChatAccountRepository;
 import com.gg.tgather.chattingservice.modules.chat.repository.chatroom.ChatRoomRepository;
 import com.gg.tgather.commonservice.security.JwtAuthentication;
@@ -22,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RedisService {
 
-    private final RedisTemplate<String, Object> redisTemplate;
     private final RedisMessageListenerContainer redisMessageListener;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatAccountRepository chatAccountRepository;
@@ -34,7 +32,6 @@ public class RedisService {
 
     public RedisService(RedisTemplate<String, Object> redisTemplate, RedisMessageListenerContainer redisMessageListener, ChatRoomRepository chatRoomRepository,
         ChatAccountRepository chatAccountRepository, RedisSubscriber redisSubscriber, RedisPublisher redisPublisher, ChatProperties chatProperties) {
-        this.redisTemplate = redisTemplate;
         this.redisMessageListener = redisMessageListener;
         this.chatRoomRepository = chatRoomRepository;
         this.chatAccountRepository = chatAccountRepository;
@@ -46,36 +43,63 @@ public class RedisService {
 
     @Transactional
     public ChatRoomDto createChatRoom(String roomName, JwtAuthentication authentication) {
-        ChatRoom chatRoom = saveAndGetChatRoom(roomName, authentication);
-        ChatRoomDto chatRoomDto = ChatRoomDto.from(chatRoom);
-        hashChatRoomDto.put(chatProperties.getRoomName(), chatRoom.getRoomId(), chatRoomDto);
+        ChatRoomDto chatRoomDto = saveAndGetChatRoom(roomName, authentication);
+        hashChatRoomDto.put(chatProperties.getRoomName(), chatRoomDto.getRoomId(), chatRoomDto);
         return chatRoomDto;
     }
 
-    @NotNull
-    private ChatRoom saveAndGetChatRoom(String roomName, JwtAuthentication authentication) {
+    /**
+     * 채팅방 저장 후 리턴
+     * @param roomName 방 이름
+     * @param authentication 로그인 사용자
+     * @return ChatRoom
+     */
+    private ChatRoomDto saveAndGetChatRoom(String roomName, JwtAuthentication authentication) {
         ChatRoom chatRoom = ChatRoom.create(roomName);
         chatRoomRepository.save(chatRoom);
         ChatAccount chatAccount = ChatAccount.of(authentication.accountId(), chatRoom);
         chatAccountRepository.save(chatAccount);
-        return chatRoom;
+        initChatRoom(chatRoom);
+        joinRoom(chatRoom.getRoomId(), authentication);
+        return ChatRoomDto.from(chatRoom);
     }
 
-    public void sendMessage(ChatMessageDto chatMessageDto) {
-        if (MessageType.ENTER.equals(chatMessageDto.getMessageType())) {
-            enterChatRoom(chatMessageDto.getRoomId());
-            chatMessageDto.setMessage(chatMessageDto.getSender() + "님이 입장하셨습니다.");
-        }
-        redisPublisher.publish(new ChannelTopic(chatMessageDto.getRoomId()), chatMessageDto);
-    }
-
-    public void enterChatRoom(String roomId) {
+    /**
+     * 채팅방 초기 세팅
+     * @param chatRoom 만들어진 채팅방
+     */
+    private void initChatRoom(ChatRoom chatRoom) {
+        String roomId = chatRoom.getRoomId();
         ChannelTopic topic = topics.getOrDefault(roomId,new ChannelTopic(roomId));
         redisMessageListener.addMessageListener(redisSubscriber, topic);
+        topics.put(chatRoom.getRoomId(), topic);
+    }
+
+    /**
+     * 메시지 전송
+     * @param chatMessageDto 전송할 메시지 정보
+     * @param authentication 로그인 사용자
+     */
+    public void sendMessage(ChatMessageDto chatMessageDto, JwtAuthentication authentication) {
+        chatMessageDto.setAccountInfo(authentication);
+        redisPublisher.publish(new ChannelTopic(chatMessageDto.getRoomId()), chatMessageDto);
     }
 
     public ChatRoomDto getChatRoom(String roomId) {
         return hashChatRoomDto.get(chatProperties.getRoomName(), roomId);
+    }
+
+    /**
+     * 채팅방 입장
+     * @param roomId 채팅방 식별자
+     * @param authentication 로그인 사용자
+     * @return ChatRoomDto
+     */
+    public ChatRoomDto joinRoom(String roomId, JwtAuthentication authentication) {
+        ChatMessageDto chatMessageDto = ChatMessageDto.enterRoom(roomId, authentication.accountId(), authentication.nickname());
+        ChannelTopic topic = topics.getOrDefault(roomId, new ChannelTopic(roomId));
+        redisPublisher.publish(topic, chatMessageDto);
+        return getChatRoom(roomId);
     }
 
 }

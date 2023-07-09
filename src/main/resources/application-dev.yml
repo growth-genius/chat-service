@@ -27,3 +27,8 @@ eureka:
 kafka:
   bootstrap-servers-config: 172.18.0.101:9092
   group-id-config: chat-service
+
+custom:
+  hosts:
+    - http://localhost:3000
+    - http://127.0.0.1:3000

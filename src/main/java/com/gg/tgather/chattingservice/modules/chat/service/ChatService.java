@@ -15,8 +15,8 @@ public class ChatService {
 
     private final RedisService redisService;
     private final ChatRoomRepository chatRoomRepository;
-    public void sendMessage(ChatMessageDto message) {
-        redisService.sendMessage(message);
+    public void sendMessage(ChatMessageDto message, JwtAuthentication authentication) {
+        redisService.sendMessage(message, authentication);
     }
 
     public List<ChatRoomDto> getRooms(String accountId) {
@@ -31,4 +31,7 @@ public class ChatService {
         return redisService.getChatRoom(roomId);
     }
 
+    public ChatRoomDto joinRoom(String roomId, JwtAuthentication authentication) {
+        return redisService.joinRoom(roomId, authentication);
+    }
 }
