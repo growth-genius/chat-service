@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestBaseAnnotation
-@RequestMapping("/chat")
 @RequiredArgsConstructor
 public class ChatRoomController {
 

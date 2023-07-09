@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         List<String> hosts = customProperties.getHosts();
         String[] array = hosts.toArray(new String[0]);
-        registry.addEndpoint("/chat/stomp-chat").setAllowedOrigins(array).withSockJS();
+        registry.addEndpoint("/stomp-chat").setAllowedOrigins(array).withSockJS();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ChatController {
      * @param message 메시지
      * @param authentication 로그인 사용자
      */
-    @MessageMapping("/chat/message")
+    @MessageMapping("/message")
     public void message(ChatMessageDto message, @AuthenticationPrincipal JwtAuthentication authentication) {
         chatService.sendMessage(message, authentication);
     }
