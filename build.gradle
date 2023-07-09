@@ -74,7 +74,9 @@ dependencies {
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     implementation 'org.glassfish.jersey.core:jersey-common:3.1.1'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-    implementation 'com.google.code.gson:gson:2.8.9'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+
 
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
