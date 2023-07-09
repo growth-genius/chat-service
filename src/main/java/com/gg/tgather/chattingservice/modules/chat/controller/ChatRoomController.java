@@ -8,6 +8,7 @@ import com.gg.tgather.chattingservice.modules.chat.service.ChatService;
 import com.gg.tgather.commonservice.security.JwtAuthentication;
 import com.gg.tgather.commonservice.utils.ApiUtil.ApiResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +55,7 @@ public class ChatRoomController {
      * @param roomId 채팅방 식별자
      * @return ChatRoomDto 들아간 채팅방 정보
      */
-    @GetMapping("/rooms/{roomId}")
+    @GetMapping(value = "/rooms/{roomId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResult<ChatRoomDto> roomInfo(@PathVariable String roomId) {
         return success(chatService.getRoom(roomId));
     }
