@@ -18,10 +18,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final CustomProperties customProperties;
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-
-        registry.addEndpoint("/chat/stomp-chat").setAllowedOrigins("http://localhost:3000").withSockJS();
+        List<String> hosts = customProperties.getHosts();
+        String[] array = hosts.toArray(new String[0]);
+        registry.addEndpoint("/chat/stomp-chat").setAllowedOrigins(array).withSockJS();
     }
 
     @Override
