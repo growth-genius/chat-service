@@ -31,8 +31,8 @@ repositories {
     maven { url 'https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates' }
     maven {
         credentials(PasswordCredentials) {
-            username = repoUsername    // System.getenv("NEXUS_ID") : 추후 하드코딩이 아닌 환경설정으로 처리
-            password = repoPassword   // System.getenv("NEXUS_PASSWORD")
+            username = repoUsername
+            password = repoPassword
         }
         url "${nexusBaseUrl}/tgather-public/"
         allowInsecureProtocol = true    // http 허용, https로 변경하면 필요없음.
@@ -44,8 +44,14 @@ ext {
     set('testcontainersVersion', "1.18.1")
 }
 
+configurations.configureEach {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
-    implementation 'com.gg.tgather:common-service:1.0.0'
+    implementation('com.gg.tgather:common-service:1.0.1-SNAPSHOT') {
+        changing = true
+    }
     implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -68,6 +74,9 @@ dependencies {
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     implementation 'org.glassfish.jersey.core:jersey-common:3.1.1'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+
 
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
